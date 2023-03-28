@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
 import SurveyField from "./SurveyField";
+import validateEmails from "../../utils/validateEmails";
 
 const FIELDS = [
   { label: "Survey Title", name: "title" },
@@ -30,10 +31,10 @@ class SurveyForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit((values) => console.log(values))}>
+      <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
         {this.renderFields()}
         <Link to="/surveys" className="red btn-flat white-text">
-          Cancel
+          Back
         </Link>
         <button type="submit" className="teal btn-flat right white-text">
           Next
@@ -48,6 +49,8 @@ function validate(values) {
   const { title, subject, body, emails } = values;
 
   const errors = {};
+
+  errors.emails = validateEmails(emails);
 
   each(FIELDS, ({ name }) => {
     if (!values[name]) {
