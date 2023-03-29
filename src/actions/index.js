@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { FETCH_USER, HANDLE_TOKEN } from "./types";
+import { FETCH_SURVEYS, FETCH_USER, HANDLE_TOKEN } from "./types";
 
 // // Common/intuitive way of implementing this function/
 // export const fetchUser = () => {
@@ -35,4 +35,10 @@ export const submitSurvey = (values, history) => async (dispatch) => {
   history.push("/surveys");
 
   return dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const fetSurveys = () => async (dispatch) => {
+  const res = await axios.get("/api/surveys");
+
+  return dispatch({ type: FETCH_SURVEYS, payload: res.data });
 };
